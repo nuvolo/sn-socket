@@ -81,9 +81,7 @@ function _getChannel(client: any, path: string): AmbChannel {
   return client.getChannel(path);
 }
 
-function _coerceSNResponseData(
-  incomingPayload: AmbSocketChangeObj,
-): SNSocketData {
+function _coerceSNResponseData(incomingPayload: AmbSocketChangeObj): SNSocketData {
   const { data } = incomingPayload;
   const { action, display_value, ...payload } = data;
   return payload;

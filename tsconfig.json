@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "moduleResolution": "node",
+    "module": "ES2015",
+    "strict": true,
+    "importHelpers": true,
+    "sourceMap": true,
+    "lib": ["dom", "es5", "es2015.promise"],
+    "outDir": "./dist/src",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "declaration": true,
+    "baseUrl": "./",
+    "types": ["jest"]
+  },
+  "exclude": ["src/**/*.test.ts", "node_modules"],
+  "include": ["src/"]
+}
