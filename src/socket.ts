@@ -32,22 +32,18 @@ interface AmbSocketChangeObj {
 }
 
 interface SNSocketCallback {
-  (payload: SNSocketData): any;
+  (payload: SNSocketData): void;
 }
 
 interface AmbCallback {
-  (payload: AmbSocketChangeObj): any;
+  (payload: AmbSocketChangeObj): void;
 }
 
 interface AmbChannel {
-  subscribe(params: AmbCallback): AmbChannel;
-  getSubscriptionCallback(): any;
   getCallback(): AmbCallback;
   getID(): string;
-  setNewChannel(channel: any): any;
   resubscribe(): AmbChannel;
   unsubscribe(): AmbChannel;
-  publish(params: any): any;
   getName(): string;
 }
 
@@ -61,13 +57,14 @@ interface SNSocketParams {
   cb: SNSocketCallback;
 }
 
-interface _SocketCache {
+interface SocketCache {
   [key: string]: AmbChannel;
 }
 
-const cache: _SocketCache = {};
+/** Hold reference to channel for unsubscribing */
+const cache: SocketCache = {};
 
-function _getClient() {
+function getClient() {
   if (amb) {
     return amb.getClient();
   }
@@ -77,31 +74,31 @@ function _getClient() {
                  Perhaps include the /scripts/glide-amb-client-bundle.min.js in your UI Page and retry.`);
 }
 
-function _getChannel(client: any, path: string): AmbChannel {
+function getChannel(client: any, path: string): AmbChannel {
   return client.getChannel(path);
 }
 
-function _coerceSNResponseData(incomingPayload: AmbSocketChangeObj): SNSocketData {
+function coerceSNResponseData(incomingPayload: AmbSocketChangeObj): SNSocketData {
   const { data } = incomingPayload;
   const { action, display_value, ...payload } = data;
   return payload;
 }
 
-function _getCallbackHandler(callback: SNSocketCallback) {
+function getCallbackHandler(callback: SNSocketCallback) {
   const cb = (payload: AmbSocketChangeObj) => {
-    const data: SNSocketData = _coerceSNResponseData(payload);
+    const data: SNSocketData = coerceSNResponseData(payload);
     return callback(data);
   };
 
   return cb;
 }
 
-function _subscribe(client: any, params: SNSocketParams): SNSocketUnsubscribe {
+function subscribeToClient(client: any, params: SNSocketParams): SNSocketUnsubscribe {
   const { cb, table } = params;
   const path = getSocketPath(params);
-  const _callback = _getCallbackHandler(cb);
-  const channel = _getChannel(client, path);
-  channel.subscribe(_callback);
+  const callback = getCallbackHandler(cb);
+  const channel = getChannel(client, path);
+  channel.subscribe(callback);
   cache[table] = channel;
   return () => {
     delete cache[table];
@@ -111,12 +108,12 @@ function _subscribe(client: any, params: SNSocketParams): SNSocketUnsubscribe {
 
 function noop() {}
 
-function subscribe(params: SNSocketParams): SNSocketUnsubscribe {
+async function subscribe(params: SNSocketParams): Promise<SNSocketUnsubscribe> {
   const { table } = params;
-  const client = _getClient();
-  const _shouldSubscribe = client && !cache[table];
+  const client = getClient();
+  const shouldSubscribe = client && !cache[table];
   /* If amb is not loaded, return a noop function */
-  return _shouldSubscribe ? _subscribe(client, params) : noop;
+  return shouldSubscribe ? subscribeToClient(client, params) : noop;
 }
 
 export { subscribe, SNSocketParams, SNSocketData };
