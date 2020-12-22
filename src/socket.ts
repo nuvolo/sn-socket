@@ -11,18 +11,15 @@ interface AmbGlideChanges {
   [key: string]: { display_value: string; value: string };
 }
 
-interface SNSocketData {
+interface AmbData {
+  action: 'entry' | 'change' | 'exit';
   record?: AmbGlideChanges;
-  sys_id: string;
+  sys_id: string; // target record
   table_name: string;
-  operation: string;
+  operation: 'insert' | 'update' | 'delete';
   changes: string[] /* NOTE: does not include sys fields (e.g. sys_updated_on) */;
-}
-
-interface AmbData extends SNSocketData {
   sent_by?: number;
-  action: string;
-  display_value: string;
+  display_value: string; // Display value of the DB record
 }
 
 interface AmbSocketChangeObj {
@@ -32,7 +29,7 @@ interface AmbSocketChangeObj {
 }
 
 interface SNSocketCallback {
-  (payload: SNSocketData): void;
+  (payload: AmbData): void;
 }
 
 interface AmbCallback {
@@ -43,7 +40,7 @@ interface AmbChannel {
   getCallback(): AmbCallback;
   getID(): string;
   resubscribe(): AmbChannel;
-  subscribe(callback: AmbCallback): AmbChannel;
+  subscribe(callback: SNSocketCallback): AmbChannel;
   unsubscribe(): AmbChannel;
   getName(): string;
 }
@@ -55,7 +52,7 @@ interface SNSocketUnsubscribe {
 interface SNSocketParams {
   table: string;
   filter: string;
-  cb: SNSocketCallback;
+  callback: SNSocketCallback;
 }
 
 interface SocketCache {
@@ -79,25 +76,9 @@ function getChannel(client: any, path: string): AmbChannel {
   return client.getChannel(path);
 }
 
-function coerceSNResponseData(incomingPayload: AmbSocketChangeObj): SNSocketData {
-  const { data } = incomingPayload;
-  const { action, display_value, ...payload } = data;
-  return payload;
-}
-
-function getCallbackHandler(callback: SNSocketCallback) {
-  const cb = (payload: AmbSocketChangeObj) => {
-    const data: SNSocketData = coerceSNResponseData(payload);
-    return callback(data);
-  };
-
-  return cb;
-}
-
 function subscribeToClient(client: any, params: SNSocketParams): SNSocketUnsubscribe {
-  const { cb, table } = params;
+  const { callback, table } = params;
   const path = getSocketPath(params);
-  const callback = getCallbackHandler(cb);
   const channel = getChannel(client, path);
   channel.subscribe(callback);
   cache[table] = channel;
@@ -109,6 +90,14 @@ function subscribeToClient(client: any, params: SNSocketParams): SNSocketUnsubsc
 
 function noop() {}
 
+/**
+ *  Subscribe and respond to changes on a table which match a given filter
+ * @param {Object} params - Arguments required for initializing a websocket subscription
+ * @param {string} params.table - The name of target table
+ * @param {string} params.filter - The query to watch. Corresponds to sysparm_query in the system
+ * @param {string} params.callback - The callback to fire on notification from Websocket
+ * @returns {function}  - Returns an unsubscribe function which takes no arguments. Allows one to deregister the socket subscription
+ */
 async function subscribe(params: SNSocketParams): Promise<SNSocketUnsubscribe> {
   const { table } = params;
   const client = getClient();
@@ -117,4 +106,4 @@ async function subscribe(params: SNSocketParams): Promise<SNSocketUnsubscribe> {
   return shouldSubscribe ? subscribeToClient(client, params) : noop;
 }
 
-export { subscribe, SNSocketParams, SNSocketData };
+export { subscribe, SNSocketParams };
