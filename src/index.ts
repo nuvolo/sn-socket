@@ -1,1 +1,1 @@
-export { subscribe } from './socket';
+export { subscribe, SNSocketParams } from './socket';
