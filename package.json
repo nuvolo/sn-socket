@@ -4,7 +4,8 @@
   "description": "A Websocket wrapper for ServiceNow",
   "main": "src/index.js",
   "scripts": {
-    "build": "npx rollup --config"
+    "build": "npx rollup --config",
+    "prepare": "npm run build"
   },
   "keywords": [
     "ServiceNow",
