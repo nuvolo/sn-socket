@@ -76,14 +76,20 @@ function getChannel(client: any, path: string): AmbChannel {
   return client.getChannel(path);
 }
 
+function getCacheKey(params: SNSocketParams): string {
+  const { table, filter } = params;
+  return `${table}_${filter}`;
+}
+
 function subscribeToClient(client: any, params: SNSocketParams): SNSocketUnsubscribe {
-  const { callback, table } = params;
+  const { callback } = params;
   const path = getSocketPath(params);
   const channel = getChannel(client, path);
+  const key = getCacheKey(params);
   channel.subscribe(callback);
-  cache[table] = channel;
+  cache[key] = channel;
   return () => {
-    delete cache[table];
+    delete cache[key];
     channel.unsubscribe();
   };
 }
@@ -99,9 +105,9 @@ function noop() {}
  * @returns {function}  - Returns an unsubscribe function which takes no arguments. Allows one to deregister the socket subscription
  */
 async function subscribe(params: SNSocketParams): Promise<SNSocketUnsubscribe> {
-  const { table } = params;
   const client = getClient();
-  const shouldSubscribe = client && !cache[table];
+  const key = getCacheKey(params);
+  const shouldSubscribe = client && !cache[key];
   /* If amb is not loaded, return a noop function */
   return shouldSubscribe ? subscribeToClient(client, params) : noop;
 }
