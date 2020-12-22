@@ -43,6 +43,7 @@ interface AmbChannel {
   getCallback(): AmbCallback;
   getID(): string;
   resubscribe(): AmbChannel;
+  subscribe(callback: AmbCallback): AmbChannel;
   unsubscribe(): AmbChannel;
   getName(): string;
 }
