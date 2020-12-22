@@ -68,7 +68,7 @@ function getClient() {
   }
 
   console.error(`Failed to subscribe websocket channel. 
-                 The amb scripts are loaded separately from nuux via the ServiceNow instance. 
+                 The amb scripts are loaded separately from this library via the ServiceNow instance. 
                  Perhaps include the /scripts/glide-amb-client-bundle.min.js in your UI Page and retry.`);
 }
 
