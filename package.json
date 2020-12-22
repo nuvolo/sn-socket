@@ -8,10 +8,18 @@
   },
   "keywords": [
     "ServiceNow",
-    "Websocket"
+    "WebSocket"
   ],
   "author": "Nick Rakochy",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nuvolo/sn-socket.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nuvolo/sn-socket/issues"
+  },
+  "homepage": "https://github.com/nuvolo/sn-socket#readme",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
     "@types/jest": "^26.0.19",
