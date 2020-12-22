@@ -9,14 +9,14 @@ This library is designed to use in a ServiceNow context. As such, it is a UMD mo
 You can include the minified bundle for this library from `unpkg`, If you are using this in a UI Page, it might look something like this
 
 ```js
-<script src="./scripts/glide-amb-client-bundle.min.js"></script>
-<script src="./NEED_THE_URL.min.js" type="text/javascript"></script>
+<script src="./scripts/glide-amb-client-bundle.min.js" type="text/javascript"></script>
+<script src="https://unpkg.com/@nuvolo/sn-socket/umd/sn-socket.min.js" type="text/javascript"></script>
 ```
 
-or you copy that script bundle from `unpkg` into a UI Script of your choosing. In this example, we create a UI Script called `snSocket`
+or you copy that script bundle from `unpkg` into a UI Script of your choosing. In this example, we create a UI Script called `snSocket` with our company's unique scope name-
 
 ```js
-<script src="./scripts/glide-amb-client-bundle.min.js"></script>
+<script src="./scripts/glide-amb-client-bundle.min.js" type="text/javascript"></script>
 <script src="./x_your_scope_name.snSocket.jsdbx" type="text/javascript"></script>
 ```
 
@@ -27,6 +27,7 @@ npm install @nuvolo/sn-socket
 ```
 
 ```js
+// you imported amb at the top-level somewhere
 import { subscribe } from '@nuvolo/sn-socket';
 ```
 
@@ -34,7 +35,16 @@ import { subscribe } from '@nuvolo/sn-socket';
 
 There is one method - `subscribe`. See the [JSDoc for a description](/src/socket.ts#L100) or [Typescript types](/src/socket.ts#L52) for more clarity.
 
-This function takes a JS object which has the `table` name that you want to watch, a filter (`sysparm_query` string), and the callback that you want to invoke. It is an `async` function that returns a Promise. This promise resolves to an `unsubscribe` function to deregister your subscription.
+This function takes a JS object which has the `table` name that you want to watch, a filter (`sysparm_query` string), and the callback that you want to invoke.
+
+```js
+function callback(payload) {
+  console.error('Look Ma, a ServiceNow socket', payload);
+}
+const params = { table: 'incident', filter: 'state=2', callback: callback };
+```
+
+`subscribe` is an `async` function that returns a Promise. This promise resolves to an `unsubscribe` function to deregister your subscription.
 
 Something like this should get you started
 
