@@ -23,6 +23,10 @@ or you copy that script bundle from `unpkg` into a UI Script of your choosing. I
 If you are looking for the ESModule, you should be able to import the apis, though you will still need to handle the `amb` client separately
 
 ```js
+npm install @nuvolo/sn-socket
+```
+
+```js
 import { subscribe } from '@nuvolo/sn-socket';
 ```
 
@@ -54,4 +58,4 @@ And just because you can use it doesn't mean you should.
 
 ## Contributing :pencil2:
 
-Contributions welcome! We would love your help to develop this library further. Please search open issues for the functionality that you are looking for. If you don't a relevant issue, please open an issue and we can discuss the request before working on the actual implementation. Thanks!
+Contributions welcome! We would love your help to develop this library further. Please search open issues for the functionality that you are looking for. If you don't find a relevant issue, please open a ticket and we can discuss the request before working on the actual implementation. Thanks!
