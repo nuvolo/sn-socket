@@ -5,7 +5,12 @@
   "main": "src/index.js",
   "scripts": {
     "build": "npx rollup --config",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "test": "echo \"Anything interesting here relies on ServiceNow code, and I didn't mock it yet... \""
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
   },
   "keywords": [
     "ServiceNow",
@@ -28,6 +33,7 @@
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^7.0.0",
     "eslint-plugin-prettier": "^3.3.0",
+    "np": "^7.0.0",
     "prettier": "^2.2.1",
     "rollup": "^2.35.1",
     "rollup-plugin-terser": "^7.0.2",
