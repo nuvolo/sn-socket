@@ -20,11 +20,17 @@ or you copy that script bundle from `unpkg` into a UI Script of your choosing. I
 <script src="./x_your_scope_name.snSocket.jsdbx" type="text/javascript"></script>
 ```
 
+If you are looking for the ESModule, you should be able to import the apis, though you will still need to handle the `amb` client separately
+
+```js
+import { subscribe } from '@nuvolo/sn-socket';
+```
+
 ## How to use :eagle:
 
 There is one method - `subscribe`. See the [JSDoc for a description](/src/socket.ts#L100) or [Typescript types](/src/socket.ts#L52) for more clarity.
 
-This takes a `table` name that you want to watch, a filter (`sysparm_query` string), and the callback that you want to invoke. It returns an `unsubscribe` function to deregister your subscription.
+This function takes a JS object which has the `table` name that you want to watch, a filter (`sysparm_query` string), and the callback that you want to invoke. It is an `async` function that returns a Promise. This promise resolves to an `unsubscribe` function to deregister your subscription.
 
 Something like this should get you started
 
@@ -42,7 +48,7 @@ Something like this should get you started
 
 This library wraps the `Amb` mechanism used by ServiceNow. As such, it is both reliable and production-ready. That said, it relies on ServiceNow apis that are not documented and subjected to change. Please be advised that you are on your own, there is no one else, YMMV, etc. etc. etc.
 
-Further, since this is ServiceNow-owned functionality, you need to keep an eye on performance degredation. Consult `stats.do` as well as the [servlet performance](https://docs.servicenow.com/bundle/paris-platform-administration/page/administer/platform-performance/concept/c_ServiceNowServlet.html) for your specific implementation.
+Further, since this is ServiceNow-owned functionality, you need to keep an eye on performance degredation. Consult `stats.do` as well as the [servlet performance tips](https://docs.servicenow.com/bundle/paris-platform-administration/page/administer/platform-performance/concept/c_ServiceNowServlet.html) for your specific implementation.
 
 And just because you can use it doesn't mean you should.
 
