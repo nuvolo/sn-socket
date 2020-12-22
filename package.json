@@ -1,12 +1,15 @@
 {
   "name": "@nuvolo/sn-socket",
   "version": "1.0.0",
-  "description": "",
+  "description": "A Websocket wrapper for ServiceNow",
   "main": "src/index.js",
   "scripts": {
     "build": "npx rollup --config"
   },
-  "keywords": [],
+  "keywords": [
+    "ServiceNow",
+    "Websocket"
+  ],
   "author": "Nick Rakochy",
   "license": "MIT",
   "devDependencies": {
