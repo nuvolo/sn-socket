@@ -28,10 +28,6 @@ interface AmbSocketChangeObj {
   ext: AmbExt;
 }
 
-interface SNSocketCallback {
-  (payload: AmbData): void;
-}
-
 interface AmbCallback {
   (payload: AmbSocketChangeObj): void;
 }
@@ -40,7 +36,7 @@ interface AmbChannel {
   getCallback(): AmbCallback;
   getID(): string;
   resubscribe(): AmbChannel;
-  subscribe(callback: SNSocketCallback): AmbChannel;
+  subscribe(callback: AmbCallback): AmbChannel;
   unsubscribe(): AmbChannel;
   getName(): string;
 }
@@ -52,7 +48,7 @@ interface SNSocketUnsubscribe {
 interface SNSocketParams {
   table: string;
   filter: string;
-  callback: SNSocketCallback;
+  callback: AmbCallback;
 }
 
 interface SocketCache {
