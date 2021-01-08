@@ -1,3 +1,5 @@
+![Latest NPM Version](https://img.shields.io/npm/v/@nuvolo/sn-socket) ![Downloads](https://img.shields.io/npm/dm/@nuvolo/sn-socket)
+
 # A WebSocket Implementation for ServiceNow :rocket:
 
 Have you ever wondered if you can use WebSockets in ServiceNow? Or how the `recordWatcher` works in Service Portal? This library simplifies ServiceNow's api and allow developers to leverage the functionality without any need or reference to Angular.js.
@@ -57,11 +59,10 @@ Something like this should get you started
 
 </script>
 ```
+
 Now update an `incident` record that is currently `In Progress` (based on what we defined in the `filter`), and see the socket response
 
 ![happy jump](https://media.giphy.com/media/Yb3d5B1zwuhCo/giphy.gif)
-
-
 
 ## Advisory note :skull_and_crossbones:
 
