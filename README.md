@@ -10,7 +10,7 @@ You can include the minified bundle for this library from `unpkg`, If you are us
 
 ```js
 <script src="./scripts/glide-amb-client-bundle.min.js" type="text/javascript"></script>
-<script src="https://unpkg.com/@nuvolo/sn-socket/umd/sn-socket.min.js" type="text/javascript"></script>
+<script src="https://unpkg.com/@nuvolo/sn-socket@1.0.1/dist/sn-socket.min.js" type="text/javascript"></script>
 ```
 
 or you copy that script bundle from `unpkg` into a UI Script of your choosing. In this example, we create a UI Script called `snSocket` with our company's unique scope name-
@@ -57,6 +57,11 @@ Something like this should get you started
 
 </script>
 ```
+Now update an `incident` record that is currently `In Progress` (based on what we defined in the `filter`), and see the socket response
+
+![happy jump](https://media.giphy.com/media/Yb3d5B1zwuhCo/giphy.gif)
+
+
 
 ## Advisory note :skull_and_crossbones:
 
