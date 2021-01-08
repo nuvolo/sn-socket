@@ -1,6 +1,6 @@
 {
   "name": "@nuvolo/sn-socket",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A Websocket wrapper for ServiceNow",
   "main": "dist/sn-socket.min.js",
   "scripts": {
