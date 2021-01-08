@@ -10,7 +10,7 @@ You can include the minified bundle for this library from `unpkg`, If you are us
 
 ```js
 <script src="./scripts/glide-amb-client-bundle.min.js" type="text/javascript"></script>
-<script src="https://unpkg.com/@nuvolo/sn-socket/umd/sn-socket.min.js" type="text/javascript"></script>
+<script src="https://unpkg.com/@nuvolo/sn-socket@1.0.1/dist/sn-socket.min.js" type="text/javascript"></script>
 ```
 
 or you copy that script bundle from `unpkg` into a UI Script of your choosing. In this example, we create a UI Script called `snSocket` with our company's unique scope name-
