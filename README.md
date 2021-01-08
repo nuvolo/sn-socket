@@ -57,6 +57,11 @@ Something like this should get you started
 
 </script>
 ```
+Now update an `incident` record that is currently `In Progress` (based on what we defined in the `filter`), and see the socket response
+
+![happy jump](https://media.giphy.com/media/Yb3d5B1zwuhCo/giphy.gif)
+
+
 
 ## Advisory note :skull_and_crossbones:
 
